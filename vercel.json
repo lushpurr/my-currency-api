@@ -1,6 +1,9 @@
 {
   "functions": {
-    "api/rates.js": {
+    "api/currencies.js": {
+      "maxDuration": 10
+    },
+    "api/convert.js": {
       "maxDuration": 10
     }
   }
