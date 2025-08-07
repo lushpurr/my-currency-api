@@ -1,4 +1,3 @@
-
 import { CosmosClient } from "@azure/cosmos";
 import { VercelRequest, VercelResponse } from "@vercel/node";
 
@@ -11,18 +10,17 @@ const container = client
     .database('currencyApp')
     .container('conversionHistory');
 
-
-export default async function handler(req: VercelRequest, res: VercelResponse){
-    
+export default async function handler(req: VercelRequest, res:VercelResponse){
     const origin = req.headers.origin ?? '';
     const allowedOrigins = [
-        'http://localhost:4200',
-        'https://lushpurr.github.io'
-    ];
+        'http://localhost:4200',  // Angular dev server
+        'https://lushpurr.github.io'  // Your GitHub Pages URL
+    ]
 
-    if (allowedOrigins.includes(origin)) {
+    if(allowedOrigins.includes(origin)){
         res.setHeader('Access-Control-Allow-Origin', origin);
     }
+
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
@@ -30,25 +28,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse){
         res.status(200).end();
         return;
     }
-    if(req.method === 'POST'){
-        console.log('Request body:', req.body);
 
-        const { fromCurrency, toCurrency, amount, result } = req.body;
-
-        const item = {
-        id: Date.now().toString(),
-        timestamp: new Date().toISOString(),
-        fromCurrency,
-        toCurrency,
-        amount,
-        result,
-        };
-
-        await container.items.create(item);
-        res.status(200).json({ message: 'Saved' });
-
+    if (req.method === 'GET') {
+        try {
+        const { resources: items } = await container.items.query('SELECT * FROM c').fetchAll();
+        res.status(200).json(items);
+        } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch conversions' });
+        }
     } else {
         res.status(405).end();
-
     }
 }

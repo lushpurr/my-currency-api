@@ -5,7 +5,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const origin = req.headers.origin ?? '';
   const allowedOrigins = [
     'http://localhost:4200',  // Angular dev server
-    'https://yourusername.github.io'  // Your GitHub Pages URL
+    'https://lushpurr.github.io'  // Your GitHub Pages URL
   ];
   
   if (allowedOrigins.includes(origin)) {
