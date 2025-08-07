@@ -31,7 +31,7 @@ export default async function handler(req: VercelRequest, res:VercelResponse){
 
     if (req.method === 'GET') {
         try {
-        const { resources: items } = await container.items.query('SELECT * FROM c').fetchAll();
+        const { resources: items } = await container.items.query('SELECT * FROM c ORDER BY c.timestamp DESC').fetchAll();
         res.status(200).json(items);
         } catch (error) {
         res.status(500).json({ error: 'Failed to fetch conversions' });
