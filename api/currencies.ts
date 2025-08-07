@@ -1,6 +1,8 @@
-export default async function handler(req, res) {
+import { VercelRequest, VercelResponse } from "@vercel/node";
+
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Enable CORS for both localhost and GitHub Pages
-  const origin = req.headers.origin;
+  const origin = req.headers.origin ?? '';
   const allowedOrigins = [
     'http://localhost:4200',  // Angular dev server
     'https://yourusername.github.io'  // Your GitHub Pages URL
