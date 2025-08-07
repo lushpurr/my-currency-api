@@ -14,7 +14,15 @@ const container = client
 
 
 export default async function handler(req: VercelRequest, res: VercelResponse){
-    res.setHeader('Access-Control-Allow-Origin', origin); 
+    const origin = req.headers.origin || '';
+    const allowedOrigins = [
+    'http://localhost:4200',
+    'https://lushpurr.github.io'
+    ];
+
+    if (allowedOrigins.includes(origin)) {
+        res.setHeader('Access-Control-Allow-Origin', origin);
+    }
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
@@ -23,6 +31,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse){
         return;
     }
     if(req.method === 'POST'){
+        console.log('Request body:', req.body);
+
         const { fromCurrency, toCurrency, amount, result } = req.body;
 
         const item = {
