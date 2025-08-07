@@ -1,13 +1,8 @@
 {
   "functions": {
-    "api/currencies.ts": {
-      "maxDuration": 10
-    },
-    "api/convert.ts": {
-      "maxDuration": 10
-    },
-    "api/saveConversion.ts": {
+    "api/**.ts": {
       "maxDuration": 10
     }
+ 
   }
 }
